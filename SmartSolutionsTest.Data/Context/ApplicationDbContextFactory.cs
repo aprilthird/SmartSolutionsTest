@@ -1,0 +1,29 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace SmartSolutionsTest.Data.Context
+{
+    public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
+    {
+        public ApplicationDbContextFactory()
+        {
+
+        }
+
+        public ApplicationDbContext CreateDbContext(string[] args)
+        {
+            var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            builder.UseSqlServer(
+                //DataConnectionString
+                "Server=localhost;Database=SmartSolutionsTestDB;Trusted_Connection=True;MultipleActiveResultSets=true"
+                , opts =>
+                {
+                    opts.CommandTimeout((int)TimeSpan.FromMinutes(10).TotalSeconds);
+                });
+            return new ApplicationDbContext(builder.Options);
+        }
+    }
+}

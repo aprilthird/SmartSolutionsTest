@@ -1,0 +1,47 @@
+﻿@model SmartSolutionsTest.App.Web.ViewModels.IndexViewModel
+@{
+    ViewData["Title"] = "Operaciones";
+}
+
+<div class="d-flex mb-4">
+    @if(Model.ShowErrors)
+    {
+        <a asp-controller="Operations" asp-action="Random" asp-route-errors="false" class="btn btn-warning mr-2">Ocultar Errores</a>   
+        <a asp-controller="Operations" asp-action="FixErrors" class="btn btn-success mr-2">Corregir Errores</a>
+    }
+    else
+    {
+        <a asp-controller="Operations" asp-action="Index" asp-route-errors="true" class="btn btn-primary mr-2">Mostrar Errores</a>
+    }
+    <a asp-controller="Operations" asp-action="Random" class="btn btn-danger">Volver a Generar (Random)</a>
+</div>
+
+<table class="table table-striped table-hover table-bordered">
+    <thead>
+        <tr>
+            <th>CÓDIGO</th>
+            <th>FECHA</th>
+            <th>OPERACIÓN</th>
+            <th>PRODUCTO</th>
+            <th>PRESENTACIÓN</th>
+            <th>ENTRADA</th>
+            <th>SALIDA</th>
+            <th>SALDO</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var op in Model.Operations)
+        {
+            <tr class="@(op.HasError ? "text-danger" : string.Empty)">
+                <td>@op.Id</td>
+                <td>@op.Date</td>
+                <td>@op.Description</td>
+                <td>@op.ProductDetail</td>
+                <td>@op.ProductPresentation</td>
+                <td>S/ @op.Income.ToString("00.00")</td>
+                <td>S/ @op.Outcome.ToString("00.00")</td>
+                <td>S/ @op.Balance.ToString("00.00")</td>
+            </tr>
+        }
+    </tbody>
+</table>
